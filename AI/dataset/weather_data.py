@@ -62,6 +62,6 @@ def get_weather_list(year):
 
     h = Twitter()
     nouns = h.nouns(weather_str)
-    pprint(set(nouns))
+    return nouns
 
-get_weather_list(2018)
+pprint(set(get_weather_list(2018) + get_weather_list(2017)))
