@@ -64,4 +64,13 @@ def get_weather_list(year):
     nouns = h.nouns(weather_str)
     return nouns
 
-pprint(set(get_weather_list(2018) + get_weather_list(2017)))
+pprint(set(get_weather_list(2018) + get_weather_list(2017) + get_weather_list(2016)))
+
+
+"""
+햇무리, \xa0
+채운, 연무, 박무, 안개
+비, 소나기, 우박
+눈, 싸락눈, 소낙눈
+진눈깨비
+"""

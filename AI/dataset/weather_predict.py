@@ -12,7 +12,7 @@ driver = webdriver.Chrome(chromedriver)
 temperature_list = []
 weather_list = []
 
-for i in range(1, 51):
+for i in range(1, 81):
     driver.get(url + str(i))
 
     t = driver.find_elements_by_class_name('value')
@@ -25,5 +25,14 @@ for i in range(1, 51):
 
 driver.quit()
 
-pprint(temperature_list)
-pprint(weather_list)
+# pprint(temperature_list)
+pprint(set([i[0] for i in weather_list]))
+
+
+"""
+맑음, 대체로 맑음, 구름이 줄어듦
+대체로 흐림, 약간 흐림, 흐림
+소나기, 비
+눈
+진눈깨비
+"""
