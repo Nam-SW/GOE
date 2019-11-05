@@ -47,24 +47,27 @@ def get_weather_list(year):
     for i in range(1, 13):
         res = requests.get(get_url(year, i, 2))
         soup = BeautifulSoup(res.content, 'html5lib')
+        find = soup.find_all(class_='align_left')
 
-        for i in soup.find_all(class_='align_left'):
+        idx = get_day(year, i, 1) + 6
+
+        for i in find[idx:]:
             text = i.get_text()
-            if text != '\xa0' and not text[0].isdigit():
+            if not text[0].isdigit():
                 weather.append(text)
                 # print(text)
 
-    weather = list(set(weather))
+    # weather = list(set(weather))
     weather_str = ''
     for i in weather:
         weather_str += i
     
 
-    h = Twitter()
-    nouns = h.nouns(weather_str)
-    return nouns
+    # h = Twitter()
+    # nouns = h.nouns(weather_str)
+    return weather
 
-pprint(set(get_weather_list(2018) + get_weather_list(2017) + get_weather_list(2016)))
+pprint(get_weather_list(2018))
 
 
 """
