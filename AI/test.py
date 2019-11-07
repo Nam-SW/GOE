@@ -1,3 +1,6 @@
 import tensorflow as tf
+import numpy as np
 
-print(tf.__version__)
+
+load_data = np.load('./dataset/m1_input.npy')
+print(load_data)
