@@ -16,6 +16,8 @@ if __name__ == "__main__":
     
     data = np.array(data_list)
     np.save('./m1_input', data)
+    t = np.load('./m1_input.npy')
+    print(t)
 
     
     
