@@ -44,6 +44,12 @@ def get_weather_code(year):
     '''
     년도를 받아와서 그 년도의 데이터를 측정함. 
     19년 데이터는 올바르지 않으니 그 이전 데이터를 쓰도록 하자.
+    
+    햇무리, \xa0
+    채운, 연무, 박무, 안개
+    비, 소나기, 우박
+    눈, 싸락눈, 소낙눈
+    진눈깨비
     '''
     weather_list, weather_code = [], []
     
@@ -87,14 +93,6 @@ def get_weather_code(year):
                 temp.append(0)
         weather_code.append(temp)
     
-    ''' 자연어처리
-    # weather = list(set(weather))
-    # weather_str = ''
-    # for i in weather:
-    #     weather_str += i
-    # h = Twitter()
-    # nouns = h.nouns(weather_str)
-    '''
     return weather_code
 
 
@@ -106,10 +104,19 @@ if __name__ == '__main__':
         print(len(i), len(j))
 
 
-"""
-햇무리, \xa0
-채운, 연무, 박무, 안개
-비, 소나기, 우박
-눈, 싸락눈, 소낙눈
-진눈깨비
-"""
+
+
+def get_data(year):
+    data_list = []
+
+    weather = get_weather_code(year)
+    temperature = get_temperature(year)
+
+    for month in range(len(weather)):
+        for day in range(len(weather[month])):
+            temp = [month+1, get_day(year, month+1, day+1), temperature[month][day], weather[month][day]]
+            # print(temp)
+            data_list.append(temp)
+    
+    # data = np.array(data_list)
+    return data_list

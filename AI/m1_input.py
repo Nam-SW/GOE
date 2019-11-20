@@ -24,7 +24,3 @@ import numpy as np
 # data = np.array([d[i] for i in idxes])
 # np.save('./dataset/m1_test.npy', data)
 
-
-l = [np.load('./dataset/m1_Xtrain.npy'), np.load('./dataset/m1_Ytrain.npy'), np.load('./dataset/m1_Xtest.npy'), np.load('./dataset/m1_Ytest.npy'), ]
-for i in l:
-    print(len(i))

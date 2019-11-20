@@ -46,12 +46,26 @@
 #         print(data_list[month-1][day-1])
 
 
-import numpy as np
-import pandas as pd
+# import numpy as np
+# import pandas as pd
 
-try:
-    data = pd.read_csv('./dataset/t.csv')
-    np.save('./dataset/m1_Ytest.npy', data.to_numpy())
+# try:
+#     data = pd.read_csv('./dataset/t.csv')
+#     np.save('./dataset/m1_Ytest.npy', data.to_numpy())
     
-except:
-    print('파일 불러오기 실패')
+# except:
+#     print('파일 불러오기 실패')
+
+import numpy as np
+from tensorflow.keras.models import load_model
+from weather_data import get_data
+print('import 완료')
+
+model = load_model('./models/model1.h5')
+data = get_data(2017)
+print('data 완료')
+
+idxs = np.random.choice([i for i in range(365)], 10, replace=False)
+for i in idxs:
+    print(data[i])
+    print(model.predict(data[i:i+1]))
