@@ -50,8 +50,8 @@ import numpy as np
 import pandas as pd
 
 try:
-    data = pd.read_csv('./dataset/model1_output.csv')
-    np.save('./dataset/m1_output.npy', data.to_numpy())
+    data = pd.read_csv('./dataset/t.csv')
+    np.save('./dataset/m1_Ytest.npy', data.to_numpy())
     
 except:
     print('파일 불러오기 실패')
