@@ -65,7 +65,7 @@ model = load_model('./models/model1.h5')
 data = get_data(2017)
 print('data 완료')
 
-idxs = np.random.choice([i for i in range(365)], 10, replace=False)
+idxs = np.random.choice([i for i in range(365)], 30, replace=False)
 for i in idxs:
     print(data[i])
-    print(model.predict(data[i:i+1]))
+    print(list(map(lambda x:1 if x >= 0.5 else 0, model.predict(data[i:i+1])[0])))
