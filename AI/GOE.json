@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "guardians-of-energy",
+  "private_key_id": "7cd345cf424bb52a5a25c606144035a8dc3dee32",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDASbrKHOnUaTDN\nNIemWQoi7gDDfwjYRGFs0ycrCv6pk+YUVeqNHQQzNaMmy46Jsd+3hpmAzcorWu+J\nspsClMNwBQJupABFagBcwmOFjeRjPF3h+Tejf1bvG7sJ5KxmzMpdpyVU7yo43ta/\nzn1HicDmNZ1ZvoD5kmjmUzx4zOlZpvgPS03UUaADx99OU5RgIX/QNBK2F67u+7vC\nh5UAfNmUOa5Yy1eWlUMaHb3kh0rJwvpkUcLMhcZDqNGLbGBk/tUSI74JzbRDfgOs\nFfsKG2Cz1Yn/Vwwoc51YkLDVHLT5AoSJkKQnkZ2QZSD1klKNFtddAPZhFf2dYobi\njFFNvY01AgMBAAECgf9lNmnbeNybscK+QKgmJzfuqtg8DuHY9CVT4tD7Fw50tCSn\nD5ImNN/BFLqL8RlV4Qqgz3h9E9UWfQcYs6pj8WntzLU7B5gc8W6/ZJJ9+fH9Sgkg\nqM1ggeaAdVg+HN+iPKlIInLEAh93T9Q5obbPsPKYOiBY3K2GsEoG8kkiTLmHNjDt\niMlW3blyx67Up/RkxDjv8rOO9IowhbY4wjPw5Z4XaJxT2qxCjpRX4VtZsFXTlXWw\np524tapWEYBFFJxgMmDrtJoZ+u8OcaL5E1jc2KOKy0/A4M+iqHVzEAR+7c1khXaM\nXPkZpAcZDNhprGldr4dSgORKnB7K2z0sZ9HNerECgYEA9yiv9LoKI1SMMTAOluof\ndSwMmi/e4Bz5nYbQvsblbu95wlWViQmoqdjEjCI87lQ86xG27QgTVH7UiB1PMZht\nAITQiV0zDn57UyHckZs1XAuAI9bF43lQbADQ5gJy4oVuolGbJHmMdpys7srSQpDR\nzl17klcB5miUF/S/F58vJ2UCgYEAxyqSZERCnc8L73OXkJooxG+V3xocH8MqrTSl\naCGndCopc+AhYgtM2COAtdUzr4wADdo5XOOmbeHVEir9lmwLaP1BHUsVHlaUIjY6\ntB5DlMfOykiA41CuLN0rq11zlf8S+Gi7/SMeFOzsEuPyRCfH2QNCfZn8grtDNlpK\noFnr+ZECgYEA0wyBQ75gzc5yb8YTjzaYahuVH0xlSoYzeBoYwe9hFxuSoyklqYD/\n7xjUrLzHvtNbuXbE9x6AMxSiMyCj8TuxSFIhKErXQDcs4830ZLleFR0U7IWHMTj0\nPWVs/Bt3Moqx8BUzHzBTiy06ViYG6SR0o30b+dgmHTOL0fECBA+/2ikCgYEAhOE9\nbJIyU/GIyAi6Lar82hqMxp4392USOx9t4Czb+WAL6hi2jSB285m0TRzi8BObEaLw\nNK5aIuPScd2m9U4+ypx1biLjAyvGh5Dg1719X21z5Xg8Le1tV9d0RFAERyY4tO3D\nxt9AObvcwbm9sIVOC9bl7MDpPRvNex0Avz1feFECgYEA28P5WU8VVLBKMsF7dnc+\nSX+bfaGvMiOzJWD2+BfH5eOfnMKY1tLYzGd+u8Ni92zfRURH2+O/I+K9BadxOCyX\n3F1PYZ+tsl2vp8t/++taF0O74Q7k1PMXWBifHY4aMuGTV7REX9+Kk072vJ2lXtp6\nnT+rLKBWcNfWZLil15mu+wE=\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-678bk@guardians-of-energy.iam.gserviceaccount.com",
+  "client_id": "111705080945447491724",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-678bk%40guardians-of-energy.iam.gserviceaccount.com"
+}

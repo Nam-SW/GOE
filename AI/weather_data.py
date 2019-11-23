@@ -1,7 +1,6 @@
 import requests, re, datetime
 from bs4 import BeautifulSoup
 from pprint import pprint
-from konlpy.tag import Twitter
 
 def get_url(year, month, option):
     '''
@@ -14,22 +13,20 @@ def get_url(year, month, option):
         url += '&obs=9&x=0&y=0'
     return url
 
-def get_temperature(year):
+def get_temperature(year, month):
     '''
-    년별로 온도 구하는 함수임
+    월별로 온도 구하는 함수임
     '''
     temperature = []
 
-    for month in range(1, 13):
-        temp = []
-        res = requests.get(get_url(year, month, 1))
-        soup = BeautifulSoup(res.content, 'html5lib')
-        find = soup.find_all(string=re.compile('평균기온:'))
+    res = requests.get(get_url(year, month, 1))
+    soup = BeautifulSoup(res.content, 'html5lib')
+    find = soup.find_all(string=re.compile('평균기온:'))
 
-        for i in find:
-            temp.append(float(i[5:-1]))
-        
-        temperature.append(temp)
+    for i in find:
+        if len(i) <= 5:
+            break
+        temperature.append(float(i[5:-1]))
 
     return temperature
 
@@ -40,7 +37,7 @@ def get_day(year, month, day):
     day_code = [2, 3, 4, 5, 6, 7, 1]
     return day_code[datetime.date(year, month, day).weekday()]
 
-def get_weather_code(year):
+def get_weather_code(year, month):
     '''
     년도를 받아와서 그 년도의 데이터를 측정함. 
     19년 데이터는 올바르지 않으니 그 이전 데이터를 쓰도록 하자.
@@ -53,64 +50,47 @@ def get_weather_code(year):
     '''
     weather_list, weather_code = [], []
     
-    for i in range(1, 13):
-        temp = []
-        res = requests.get(get_url(year, i, 2))
-        soup = BeautifulSoup(res.content, 'html5lib')
-        find = soup.find_all(class_='align_left')
+    temp = []
+    res = requests.get(get_url(year, month, 2))
+    soup = BeautifulSoup(res.content, 'html5lib')
+    find = soup.find_all(class_='align_left')
 
-        # 월별로 시작하는 요일
-        start = get_day(year, i, 1) + 6
-
-        for j in range(start, len(find)):
-            text = find[j].get_text()
-            if find[j-7].get_text()[0].isdigit():
-                temp.append(text)
-        
-        weather_list.append(temp)
+    # 월별로 시작하는 요일
+    start = get_day(year, month, 1) + 6
+    for j in range(start, len(find)):
+        text = find[j].get_text()
+        if find[j-7].get_text()[0].isdigit():
+            weather_list.append(text)
+    
 
     # 코드화
-    for weather in weather_list:
-        temp = []
-        for i in weather:
-            if '진눈깨비' in i:
-                # 진눈깨비: 5
-                temp.append(5)
-            elif '눈' in i:
-                # 눈: 4
-                temp.append(4)
-            elif '소나기' in i or '비' in i or '우박' in i:
-                # 비: 3
-                temp.append(3)
-            elif '무' in i or '운' in i or '안개' in i:
-                # 흐림: 2
-                temp.append(2)
-            elif '\xa0' in i or '햇무리' in i:
-                # 맑음: 1
-                temp.append(1)
-            else:
-                # 아직 코드를 추가하지 않음. 나중에 프로그램이 커지면 알아서 하겠지
-                temp.append(0)
-        weather_code.append(temp)
+    for i in weather_list:
+        if '진눈깨비' in i:
+            # 진눈깨비: 5
+            weather_code.append(5)
+        elif '눈' in i:
+            # 눈: 4
+            weather_code.append(4)
+        elif '소나기' in i or '비' in i or '우박' in i:
+            # 비: 3
+            weather_code.append(3)
+        elif '무' in i or '운' in i or '안개' in i:
+            # 흐림: 2
+            weather_code.append(2)
+        elif '\xa0' in i or '햇무리' in i:
+            # 맑음: 1
+            weather_code.append(1)
+        else:
+            # 아직 코드를 추가하지 않음. 나중에 프로그램이 커지면 알아서 하겠지
+            weather_code.append(0)
     
     return weather_code
-
-
-if __name__ == '__main__':
-    # for i in get_weather_code(2018):
-    t = get_temperature(2019)
-    w = get_weather_code(2019)
-    for i in range(5):
-        print(t[i], w[i])
-
-
-
 
 def get_data(year):
     data_list = []
 
-    weather = get_weather_code(year)
-    temperature = get_temperature(year)
+    weather = get_weather_code(year, 1)
+    temperature = get_temperature(year, 1)
 
     for month in range(len(weather)):
         for day in range(len(weather[month])):
@@ -120,3 +100,7 @@ def get_data(year):
     
     # data = np.array(data_list)
     return data_list
+
+if __name__ == "__main__":
+    print(len(get_temperature(2019, 11)))
+    print(len(get_weather_code(2019, 11)))
