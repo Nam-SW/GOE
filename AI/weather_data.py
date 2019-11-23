@@ -98,10 +98,10 @@ def get_weather_code(year):
 
 if __name__ == '__main__':
     # for i in get_weather_code(2018):
-    for i, j in zip(get_temperature(2018), get_weather_code(2018)):
-        print(i)
-        print(j)
-        print(len(i), len(j))
+    t = get_temperature(2019)
+    w = get_weather_code(2019)
+    for i in range(5):
+        print(t[i], w[i])
 
 
 

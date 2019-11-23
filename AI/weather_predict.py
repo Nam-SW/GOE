@@ -1,5 +1,5 @@
 from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
+# from selenium.webdriver.common.keys import Keys
 from pprint import pprint
 
 def get_predict_code(length=30):
@@ -7,8 +7,8 @@ def get_predict_code(length=30):
     지금으로부터 한달간의 온도와 날씨정보를 튜플형태로 출력.
     그냥 지금으로부터 x일 후까지를 원하면 x값을 넣으면 됨
     '''
-    chromedriver = 'C:\\ProgramData\\Anaconda3\\chromedriver.exe' # 윈도우 
     url = 'https://www.accuweather.com/ko/kr/seoul/226081/daily-weather-forecast/226081?day='
+    chromedriver = 'C:\\ProgramData\\Anaconda3\\chromedriver.exe' # 윈도우 
     driver = webdriver.Chrome(chromedriver)
 
     temperature_list = []
