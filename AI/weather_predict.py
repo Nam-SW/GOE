@@ -13,7 +13,7 @@ def get_predict_code(driver='C:\\ProgramData\\Anaconda3\\chromedriver.exe', leng
     temperature_list = []
     weather_list = []
 
-    for i in range(1, length):
+    for i in range(1, length+1):
         driver.get(url + str(i))
 
         t = driver.find_elements_by_class_name('value')
