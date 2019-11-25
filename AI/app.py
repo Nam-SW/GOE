@@ -15,23 +15,45 @@ firebase_admin.initialize_app(credentials.Certificate(DB_cred), {
     'databaseURL' : DB_link
 })
 
-@app.route('/')
-def wrong_access():
-    try:
-        return jsonify({'message':'잘못된 접근입니다'})
-    except Exception as e:
-        print(str(e))
-        return jsonify({'message':str(e)})
+# @app.route('/')
+# def wrong_access():
+#     try:
+#         return jsonify({'message':'잘못된 접근입니다'})
+#     except Exception as e:
+#         print(str(e))
+#         return jsonify({'message':str(e)})
 
-@app.route('/reloading')
+@app.route('/')
 def get_predict():
     try:
+        today = goe.get_today()
+        f_count = [0] * 2 # 요 2을 가구 수대로 바꾸기만 하면 됨.
+        if today[6:8] != '01':
+            data = db.reference(today[:4]+'/electricity_use').get()
+            month = today[4:6]
+            for day in range(1, int(today[6:8])):
+                print(data[month+'%02d'%day])
+                for d in data[month+'%02d'%day]:
+                    print(d)
+                    for i, k in enumerate(list(d.keys())):
+                        f_count[i] += d[k]
+
+        
+        print(f_count)
+
+
         year = goe.get_today()[:4]
         d = list(map(lambda data: [data['Month'], data['Day'], data['Temperature'], data['Weather']], [db.reference(year+'/weather/'+key).get() for key in goe.remaining_day()]))
         # print(d)
+        return_value = ''
         pred = goe.predict(d)
-        data_json = {k:v for k,v in enumerate(pred)}
-        return data_json, 200
+        for l in pred:
+            for i in range(len(l)//48 - 1):
+                f_count[i] += l[i*48 : (i+1)*48]
+            return_value += ' '.join(f_count) + '\n'
+
+        # data_json = {k:v for k,v in enumerate(pred)}
+        return return_value[:-1], 200
     except Exception as e:
         print(str(e))
         return jsonify({'message':str(e)})

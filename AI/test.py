@@ -11,6 +11,8 @@ firebase_admin.initialize_app(credentials.Certificate(DB_cred), {
     'databaseURL' : DB_link
 })
 
+print(db.reference('2019/electricity_use/1100').get())
+
 # ref = db.reference()
 # print(ref.get())
 
@@ -40,18 +42,15 @@ firebase_admin.initialize_app(credentials.Certificate(DB_cred), {
 #     })
 
 
-import numpy as np
-x = np.load('./dataset/m1_Xtrain.npy')
-y = np.load('./dataset/m1_Ytrain.npy')
+# import numpy as np
+# x = np.load('./dataset/m1_Xtrain.npy')
+# y = np.load('./dataset/m1_Ytrain.npy')
 
-ref = db.reference('2019/electricity_use')
-for i, k in zip(range(304, 329), range(1, 26)):
-    key = '11%02d'%k
-    print(key)
+# ref = db.reference('2019/electricity_use')
+# for i, k in zip(range(304, 329), range(1, 26)):
+#     key = '11%02d'%k
+#     print(key)
     
-    test = ref.child(key)
+#     test = ref.child(key)
 
-    test.set({k1:{k2:int(y[i][k1+i2]) for k2, i2 in zip(['airconditioner', 'refrigerator'], [0, 48])} for k1 in range(48)})
-    # print(y[i])
-
-    # print({k1:{k2:y[i][k1+i2] for k2, i2 in zip(['airconditioner', 'refrigerator'], [0, 48])} for k1 in range(48)})
+#     test.set({k1:{k2:int(y[i][k1+i2]) for k2, i2 in zip(['airconditioner', 'refrigerator'], [0, 48])} for k1 in range(48)})
