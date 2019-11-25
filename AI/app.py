@@ -39,8 +39,9 @@ def get_predict():
 def update():
     while True:
         if time.strftime('%H', time.localtime(time.time())) == '00':
+        # if True:
             yesterday = goe.get_yesterday_weather()
-            db.reference(yesterday[:4]+'/weather').child(yesterday[4:]).set({
+            db.reference(yesterday[0][:4]+'/weather').child(yesterday[0][4:]).set({
                 'Month': yesterday[1], 
                 'Day': yesterday[2], 
                 'Temperature': yesterday[3],
@@ -48,9 +49,28 @@ def update():
             })
             print('이전날 변경 완료')
 
-            goe.weather_predict()
+            ref = db.reference(goe.get_today()[:4]+'/weather')
+            for key, data in zip(goe.remaining_day(), goe.weather_predict()): # 이번달 예측
+                # print(key, data)
+                d_ref = ref.child(key)
+                d_ref.set({
+                    'Month': data[0],
+                    'Day': data[1],
+                    'Temperature': data[2],
+                    'Weather': data[3]
+                })
+
+            data = db.reference(yesterday[0][:4]+'/electricity_use/'+yesterday[0][4:]).get()
+            x = yesterday[1:3] + yesterday[3:]
+            y = [data[i]['airconditioner'] for i in data.keys()] + [data[i]['refrigerator'] for i in data.keys()]
+            print(x)
+            print(y)
+
+            # goe.weather_predict()
         time.sleep(3600)
 
 if __name__ == '__main__':
+    threading.Thread(target=update).start()
     app.run(debug=True, port=8080)
+    
     

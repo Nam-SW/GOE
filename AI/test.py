@@ -14,9 +14,9 @@ firebase_admin.initialize_app(credentials.Certificate(DB_cred), {
 # ref = db.reference()
 # print(ref.get())
 
-goe = GOE()
+# goe = GOE()
 # t, w = get_temperature(2019, 11), get_weather_code(2019, 11) # 11월 데이터 등록
-ref = db.reference('2019/weather')
+# ref = db.reference('2019/weather')
 # for d in range(len(t)):
 #     k = "11%02d"%(d+1)
 #     print(d, k)
@@ -28,7 +28,7 @@ ref = db.reference('2019/weather')
 #         'Weather': w[d]
 #     })
 
-# print(goe.weather_predict())
+# ref = db.reference('2019/weather')
 # for key, data in zip(goe.remaining_day(), goe.weather_predict()): # 이번달 예측
 #     # print(key, data)
 #     d_ref = ref.child(key)
@@ -38,3 +38,20 @@ ref = db.reference('2019/weather')
 #         'Temperature': data[2],
 #         'Weather': data[3]
 #     })
+
+
+import numpy as np
+x = np.load('./dataset/m1_Xtrain.npy')
+y = np.load('./dataset/m1_Ytrain.npy')
+
+ref = db.reference('2019/electricity_use')
+for i, k in zip(range(304, 329), range(1, 26)):
+    key = '11%02d'%k
+    print(key)
+    
+    test = ref.child(key)
+
+    test.set({k1:{k2:int(y[i][k1+i2]) for k2, i2 in zip(['airconditioner', 'refrigerator'], [0, 48])} for k1 in range(48)})
+    # print(y[i])
+
+    # print({k1:{k2:y[i][k1+i2] for k2, i2 in zip(['airconditioner', 'refrigerator'], [0, 48])} for k1 in range(48)})

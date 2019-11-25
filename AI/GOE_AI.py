@@ -39,7 +39,7 @@ class GOE:
         w = get_weather_code(year, month)[day-2]
 
         yesterday = time.strftime('%Y%m%d%w', time.localtime(time.time()-86400)) # 전날 3600 * 24
-        return [yesterday[:8], int(yesterday[4:6]), int(yesterday[6:8]), int(yesterday[-1]), t, w]
+        return [yesterday[:8], int(yesterday[4:6]), int(yesterday[-1])+1, t, w]
 
 
     def weather_predict(self):
