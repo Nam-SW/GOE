@@ -1,9 +1,9 @@
 import time
 import numpy as np
-from keras.models import load_model
+from tensorflow.keras.models import load_model
 from selenium import webdriver
 
-from weather_data import get_weather_code, get_temperature
+from weather_data import get_weather_code, get_temperature, get_day
 from weather_predict import get_predict_code
 
 
@@ -27,7 +27,9 @@ class GOE:
 
     def get_yesterday_weather(self):
         '''
-        매일 0시에 실행하는 함수. 하루가 지나고 딱 그 전날의 정확한 데이터를 얻어옴
+        매일 0시에 실행하는 함수. 
+        하루가 지나고 전날의 정확한 데이터를 리스트로 얻어옴.
+        [년월일, 월, 요일, 온도, 날씨]
         '''
         date = self.get_today()
         year = int(date[:4])
@@ -35,7 +37,9 @@ class GOE:
         day = int(date[6:8])
         t = get_temperature(year, month)[day-2] # 하나는 인덱스, 하나는 하루 전
         w = get_weather_code(year, month)[day-2]
-        return t, w
+
+        yesterday = time.strftime('%Y%m%d%w', time.localtime(time.time()-86400)) # 전날 3600 * 24
+        return [yesterday[:8], int(yesterday[4:6]), int(yesterday[6:8]), int(yesterday[-1]), t, w]
 
 
     def weather_predict(self):
@@ -43,13 +47,14 @@ class GOE:
         매일 0시에 실행하는 함수. 현재 달의 모든 날씨 정보를 예측하고 반환. 
         '''
         reday = self.remaining_day()
+        year = int(self.get_today()[:4])
         month = int(reday[0][:2])
         tw = get_predict_code(self.driver, len(reday))
         
         data = []
         for day, t, w in zip(map(lambda x: int(x[2:]), reday), tw[0], tw[1]):
-            print(month, day, t, w)
-            data.append([month, day, t, w])
+            # print(month, get_day(year, month, day), t, w)
+            data.append([month, get_day(year, month, day), t, w])
 
         return data
     
@@ -84,18 +89,13 @@ class GOE:
 
 
 
-
-test = GOE()
-# print(test.get_today())
-
-# test.update_yesterday()
-
-# print(test.predict([[ 1,   7,  -5.2,  4 ],
-#                     [ 2,   4,  -2.2,  1 ],
-#                     [ 4,   5,  10.4,  3 ],
-#                     [ 7,   5,  27.6,  3 ],
-#                     [ 6,   2,  22.1,  1 ]]))
-
-test.weather_predict()
-
-# print(test.remaining_day())
+if __name__ == '__main__':
+    test = GOE()
+    # print(test.get_today())
+    
+    # test.update_yesterday()
+    
+    # test.weather_predict()
+    
+    # print(test.remaining_day())
+    print(test.get_yesterday_weather())
