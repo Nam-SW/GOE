@@ -32,14 +32,14 @@ def get_predict():
             data = db.reference(today[:4]+'/electricity_use').get()
             month = today[4:6]
             for day in range(1, int(today[6:8])):
-                print(data[month+'%02d'%day])
+                # print(data[month+'%02d'%day])
                 for d in data[month+'%02d'%day]:
-                    print(d)
+                    # print(d)
                     for i, k in enumerate(list(d.keys())):
                         f_count[i] += d[k]
 
         
-        print(f_count)
+        # print(f_count)
 
 
         year = goe.get_today()[:4]
@@ -48,12 +48,13 @@ def get_predict():
         return_value = ''
         pred = goe.predict(d)
         for l in pred:
-            for i in range(len(l)//48 - 1):
-                f_count[i] += l[i*48 : (i+1)*48]
-            return_value += ' '.join(f_count) + '\n'
+            for i in range(len(l)//48):
+                f_count[i] += sum(l[i*48 : (i+1)*48])
+            # print(f_count)
+            return_value += ' '.join(map(str, f_count)) + ' '
 
         # data_json = {k:v for k,v in enumerate(pred)}
-        return return_value[:-1], 200
+        return return_value[:], 200
     except Exception as e:
         print(str(e))
         return jsonify({'message':str(e)})
@@ -85,8 +86,6 @@ def update():
             data = db.reference(yesterday[0][:4]+'/electricity_use/'+yesterday[0][4:]).get()
             x = yesterday[1:3] + yesterday[3:]
             y = [data[i]['airconditioner'] for i in data.keys()] + [data[i]['refrigerator'] for i in data.keys()]
-            print(x)
-            print(y)
 
             # goe.weather_predict()
         time.sleep(3600)
