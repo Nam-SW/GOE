@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "16279626924",
+    "firebase_url": "https://guardians-of-energy.firebaseio.com",
+    "project_id": "guardians-of-energy",
+    "storage_bucket": "guardians-of-energy.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:16279626924:android:c4408dcc097c5091572b09",
+        "android_client_info": {
+          "package_name": "com.example.goe"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "16279626924-bt7ndcsvqruadrlivrkajkifafom4pcm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDkKnt1WCZkRBEvRD_NRhu1TzcFKl8Rh6E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "16279626924-bt7ndcsvqruadrlivrkajkifafom4pcm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
