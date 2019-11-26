@@ -2,7 +2,7 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import db
 from GOE_AI import GOE
-from weather_data import get_temperature, get_weather_code, get_day
+# from weather_data import get_temperature, get_weather_code, get_day
 
 DB_link='https://guardians-of-energy.firebaseio.com/'
 DB_cred='./GOE.json'
@@ -11,7 +11,7 @@ firebase_admin.initialize_app(credentials.Certificate(DB_cred), {
     'databaseURL' : DB_link
 })
 
-print(db.reference('2019/electricity_use/1100').get())
+# print(db.reference('2019/electricity_use/1100').get())
 
 # ref = db.reference()
 # print(ref.get())
@@ -54,3 +54,17 @@ print(db.reference('2019/electricity_use/1100').get())
 #     test = ref.child(key)
 
 #     test.set({k1:{k2:int(y[i][k1+i2]) for k2, i2 in zip(['airconditioner', 'refrigerator'], [0, 48])} for k1 in range(48)})
+
+import datetime, time
+while True:
+    now = time.strftime('%Y%m%d%H%M', time.localtime(time.time()))
+    print(now[:4]+'/electricity_use/'+now[4:8] + str(int(now[8:10])*2 + (int(now[10:]) // 30)))
+    if now[8:] == '0000':
+        db.reference(now[:4]+'/electricity_use').child(now[4:8]).set({})
+        print(now + ' : mk table')
+    if now[10:] in ['00', '30']:
+        key = int(now[8:10])*2 + (int(now[10:]) // 30)
+        # print(key)
+        db.reference(now[:4]+'/electricity_use/'+now[4:8]).child(key).set({'airconditioner':0, 'refrigerator':1})
+        print(now + ' : update')
+    time.sleep(60)
