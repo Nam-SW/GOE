@@ -1,6 +1,6 @@
 import requests, re, datetime
 from bs4 import BeautifulSoup
-from pprint import pprint
+# from pprint import pprint
 
 def get_url(year, month, option):
     '''

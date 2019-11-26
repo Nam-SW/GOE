@@ -1,4 +1,5 @@
 from selenium import webdriver
+import time
 # from selenium.webdriver.common.keys import Keys
 # from pprint import pprint
 
@@ -14,15 +15,21 @@ def get_predict_code(driver='C:\\ProgramData\\Anaconda3\\chromedriver.exe', leng
     weather_list = []
 
     for i in range(1, length+1):
-        driver.get(url + str(i))
+        # while True:
+        # driver.get(url + str(i))
+        while driver.get(url + str(i)) != None:
 
+            driver.refresh()
+        
         t = driver.find_elements_by_class_name('value')
         w = driver.find_elements_by_class_name('phrase')
 
+        # print(t)
         high, low = str(t[0].text), str(t[1].text)
         mean = (int(high[:high.index('°')]) + int(low[:low.index('°')])) / 2
         temperature_list.append(mean)
         weather_list.append((str(w[0].text), str(w[1].text)))
+        time.sleep(0.5)
 
     driver.quit()
 

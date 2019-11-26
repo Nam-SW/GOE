@@ -15,14 +15,6 @@ firebase_admin.initialize_app(credentials.Certificate(DB_cred), {
     'databaseURL' : DB_link
 })
 
-# @app.route('/')
-# def wrong_access():
-#     try:
-#         return jsonify({'message':'잘못된 접근입니다'})
-#     except Exception as e:
-#         print(str(e))
-#         return jsonify({'message':str(e)})
-
 @app.route('/')
 def get_predict():
     try:
@@ -86,12 +78,11 @@ def update():
 
 
             data = db.reference(yesterday[0][:4]+'/electricity_use/'+yesterday[0][4:]).get() # 모델 학습
-            print(data)
+            # print(data)
             x = yesterday[1:3] + yesterday[3:]
             y = []
-            for k in data[0].keys():
-                for i in data:
-                    y.append(i[k])
+            for i in [[i[k] for i in data] for k in data[0].keys()]:
+                y += i
                     
             # print(x)
             # print(y)
