@@ -1,27 +1,34 @@
 package com.example.goe;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class ElectryUse_Activity extends AppCompatActivity {
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_electry_use_);
 
-        FloatingActionButton btnSetting = findViewById(R.id.floatingActionButton2);
+        final int a = 1220;
+        final TextView txt = findViewById(R.id.elec);
+        ImageButton btn = findViewById(R.id.btnrotate);
 
-        btnSetting.setOnClickListener(new View.OnClickListener() {
+
+
+        btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "미개발",Toast.LENGTH_LONG).show();
+                txt.setText(a+"Kwh");
             }
         });
+
+
     }
 }

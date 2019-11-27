@@ -1,6 +1,7 @@
 package com.example.goe;
 
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import com.github.mikephil.charting.animation.Easing;
@@ -12,6 +13,10 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +27,7 @@ public class Graph_Activity extends AppCompatActivity {
     private LineChart lineChart2;
     private LineChart lineChart;
 
+    int A;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +35,17 @@ public class Graph_Activity extends AppCompatActivity {
 
         lineChart2 = (LineChart)findViewById(R.id.chart);
         lineChart = findViewById(R.id.chart2);
+
+
+
+//        try {
+//            CrawlingTask task =  new CrawlingTask();
+//            A = (int) task.execute().get();
+//        } catch (ExecutionException e) {
+//            e.printStackTrace();
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
 
         List<Entry> Electry_Data = new ArrayList<>();
         Electry_Data.add(new Entry(1, Bill(40)));
@@ -57,6 +74,7 @@ public class Graph_Activity extends AppCompatActivity {
         Electry_Data.add(new Entry(24,Bill(1100) ));
         Electry_Data.add(new Entry(25, Bill(1150)));
         Electry_Data.add(new Entry(26, Bill(1220)));
+        Electry_Data.add(new Entry(27, Bill(1270)));
 
         List<Entry> entries = new ArrayList<>();
         entries.add(new Entry(1, Bill(45)));
@@ -166,8 +184,52 @@ public class Graph_Activity extends AppCompatActivity {
         lineChart.invalidate();
 
     }
+
+
+
+    public class CrawlingTask extends AsyncTask {
+
+        @Override
+        protected Object[] doInBackground(Object[] objects) {
+            String result = "";
+            try {
+                URL url = new URL("http://192.168.137.1:8080");
+//            System.out.println("url=[" + url + "]");
+//            System.out.println("protocol=[" + url.getProtocol() + "]");
+//            System.out.println("host=[" + url.getHost() + "]");
+//            System.out.println("content=[" + url.getContent() + "]");
+
+                InputStream is = url.openStream();
+                int ch;
+                while ((ch = is.read()) != -1) {
+                    System.out.print((char) ch);
+                    result += (char) ch;
+                }
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+//            return result;
+
+            ArrayList<Integer> a =new ArrayList<>();
+
+
+            for(String s : result.split(" ")) {
+                a.add(Integer.parseInt(s));
+                System.out.println(a);
+            }
+
+
+            return a.toArray();
+        }
+    }
+
+
+
     public static int Bill(int UsedElectry){
         double bill;
+        UsedElectry = (int) (UsedElectry/2*0.1);
         if(UsedElectry<=200)
         {
             bill=UsedElectry*93.3+910;

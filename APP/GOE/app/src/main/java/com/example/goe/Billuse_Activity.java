@@ -57,6 +57,7 @@ public class Billuse_Activity extends AppCompatActivity {
 
     public static int Bill(int UsedElectry){
         double bill;
+        UsedElectry = (int) (UsedElectry/2*0.1);
         if(UsedElectry<=200)
         {
             bill=UsedElectry*93.3+910;

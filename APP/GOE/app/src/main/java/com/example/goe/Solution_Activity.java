@@ -38,22 +38,6 @@ public class Solution_Activity extends AppCompatActivity {
             }
         });
 
-
-        btnsend = findViewById(R.id.btnsend);
-        tv_outPut = (TextView) findViewById(R.id.tv_outPut);
-        btnsend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                GetExample getExample = new GetExample();
-                try {
-                    String response = getExample.run("https://raw.github.com/square/okhttp/master/README.md");
-                    System.out.println(response);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
     }
 
     public class GetExample {
