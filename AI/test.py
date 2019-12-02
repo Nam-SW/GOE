@@ -50,21 +50,15 @@ goe = GOE()
 #     test = ref.child(key)
 #     test.set({k1:{k2:int(y[i][k1+i2]) for k2, i2 in zip(['airconditioner', 'refrigerator'], [0, 48])} for k1 in range(48)})
 
-ref = db.reference(goe.get_today()[:4]+'/weather')
-# while True:
-#     try:
-for key, data in zip(goe.remaining_day(), goe.weather_predict()): # 이번달 예측
-    # print(key, data)
-    d_ref = ref.child(key)
-    d_ref.set({
-        'Month': data[0],
-        'Day': data[1],
-        'Temperature': data[2],
-        'Weather': data[3]
-        })
-    #     break
-    # except:
-    #     print('error')
+# ref = db.reference(goe.get_today()[:4]+'/weather')
+# for key, data in zip(goe.remaining_day(), goe.weather_predict()): # 이번달 예측
+#     d_ref = ref.child(key)
+#     d_ref.set({
+#         'Month': data[0],
+#         'Day': data[1],
+#         'Temperature': data[2],
+#         'Weather': data[3]
+#         })
 
 
 
