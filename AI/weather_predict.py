@@ -32,7 +32,7 @@ def get_predict_code(driver='C:\\ProgramData\\Anaconda3\\chromedriver.exe', star
             weather_list.append((str(w[0].text), str(w[1].text)))
             time.sleep(0.5)
     except IndexError:
-        print('error')
+        print('error index: ', error_idx)
 
     finally:
         driver.quit()
