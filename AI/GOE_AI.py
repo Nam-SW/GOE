@@ -48,7 +48,10 @@ class GOE:
         reday = self.remaining_day()
         year = int(self.get_today()[:4])
         month = int(reday[0][:2])
-        tw = get_predict_code(self.driver, len(reday))
+        restart = 1
+        tw = []
+        while restart != len(reday):
+            tw, restart = get_predict_code(self.driver, restart, len(reday))
         
         data = []
         for day, t, w in zip(map(lambda x: int(x[2:]), reday), tw[0], tw[1]):
