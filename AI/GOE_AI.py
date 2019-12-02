@@ -1,7 +1,6 @@
 import time
 import numpy as np
 from tensorflow.keras.models import load_model
-from selenium import webdriver
 
 from weather_data import get_weather_code, get_temperature, get_day
 from weather_predict import get_predict_code
