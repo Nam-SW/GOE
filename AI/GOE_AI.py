@@ -53,7 +53,7 @@ class GOE:
         while restart != len(reday):
             temp, restart = get_predict_code(self.driver, restart, len(reday))
             tw += temp
-        print(len(tw))
+        print('success: ', len(tw))
         
         data = []
         for day, t, w in zip(map(lambda x: int(x[2:]), reday), tw[0], tw[1]):

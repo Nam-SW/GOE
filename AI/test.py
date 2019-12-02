@@ -76,7 +76,7 @@ for key, data in zip(goe.remaining_day(), goe.weather_predict()): # 이번달 �
 ############################################## 여기가 꼭 실행해야하는곳 ##########################################
 now = time.strftime('%Y%m%d%H%M', time.localtime(time.time()))
 for i in range(int(now[8:10])*2 + (int(now[10:]) // 30)+1):
-    print(i)
+    # print(i)
     db.reference(now[:4]+'/electricity_use/'+now[4:8]).child(str(i)).set({'airconditioner':0, 'refrigerator':1})
 
 
