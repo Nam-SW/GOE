@@ -1,18 +1,23 @@
 import time
 import numpy as np
 from tensorflow.keras.models import load_model
+import pickle
 
 from weather_data import get_weather_code, get_temperature, get_day
 from weather_predict import get_predict_code
 
 
 class GOE:
-    def __init__(self, model_link='./models/model.h5', driver_link='C:\\ProgramData\\Anaconda3\\chromedriver.exe'):
+    def __init__(self, model_link='./models/', driver_link='C:\\ProgramData\\Anaconda3\\chromedriver.exe'):
         '''
         model_link = AI 모델 링크
         driver_link = 크롬 드라이버 위치
         '''
-        self.model = load_model(model_link)
+        with open(model_link + 'mean.pickle', 'rb') as f:
+            self.mean = pickle.load(f)
+        with open(model_link + 'std.pickle', 'rb') as f:
+            self.std = pickle.load(f)
+        self.model = load_model(model_link + 'model.h5')
         self.driver = driver_link
         
 
@@ -21,6 +26,13 @@ class GOE:
         0:4 = 년 4:6 = 월 6:8 = 일 8 = 요일
         '''
         date = time.strftime('%Y%m%d', time.localtime(time.time())) + str(int(time.strftime('%w', time.localtime(time.time())))+1)
+        return date
+
+    def get_yesterday(self):
+        '''
+        0:4 = 년 4:6 = 월 6:8 = 일 8 = 요일
+        '''
+        date = time.strftime('%Y%m%d', time.localtime(time.time()-86400)) + str(int(time.strftime('%w', time.localtime(time.time()-86400)))+1)
         return date
     
 
@@ -37,8 +49,8 @@ class GOE:
         t = get_temperature(year, month)[day-2] # 하나는 인덱스, 하나는 하루 전
         w = get_weather_code(year, month)[day-2]
 
-        yesterday = time.strftime('%Y%m%d%w', time.localtime(time.time()-86400)) # 전날 3600 * 24
-        return [yesterday[:8], int(yesterday[4:6]), int(yesterday[-1])+1, t, w]
+        yesterday = self.get_yesterday()
+        return [yesterday[:8], int(yesterday[4:6]), int(yesterday[-1]), t, w]
 
 
     def weather_predict(self):
@@ -52,7 +64,7 @@ class GOE:
         tw = [[], []]
         while restart != len(reday):
             temp, restart = get_predict_code(self.driver, restart, len(reday))
-            print(temp)
+            print('error index:', temp)
             tw = [tw[i]+temp[i] for i in range(2)]
         print('success: ', len(tw[0]), len(tw[1]))
         
@@ -69,8 +81,8 @@ class GOE:
         매일 0시에 실행하는 함수. 그 전날의 데이터를 가져다가 모델을 학습시키고 저장. 
         원본은 드라이브에 있으니 우선은 상관없음.
         '''
-        x = np.array([x])
-        y = np.array([y]) * 10
+        x = (np.array([x]) - self.mean) * self.std
+        y = np.array([y])
         self.model.fit(x, y, epochs=1, batch_size=1, validation_split=1, verbose=2)
         self.model.save(link+'/model.h5')
     
@@ -79,8 +91,13 @@ class GOE:
         '''
         데이터를 주면 그걸 예측해서 데이터 개수만큼 예측값을 줌
         '''
-        datalist = [list(map(lambda x:1 if x >= 0.5 else 0, self.model.predict(np.array([i]))[0])) for i in data]
-        return datalist
+        # datalist = [list(map(lambda x:1 if x >= 0.5 else 0, self.model.predict(np.array([i]))[0])) for i in data]
+        # datalist = list(map(lambda x: 1 if x >= 0.5 else 0, self.model.predict(data)))
+        # return datalist
+        data = (np.array(data) - self.mean) / self.std
+        # pred = self.model.predict(data)
+        
+        return [list(map(lambda x: 1 if x >= 0.5 else 0, pred_elem)) for pred_elem in self.model.predict(data)]
 
 
     def remaining_day(self):

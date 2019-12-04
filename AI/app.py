@@ -18,17 +18,17 @@ firebase_admin.initialize_app(credentials.Certificate(DB_cred), {
 @app.route('/')
 def get_predict():
     try:
-        today = goe.get_today()
+        yesterday = goe.get_yesterday()
         f_count = [0] * 2 # 요 2을 가구 수대로 바꾸기만 하면 됨.
-        if today[6:8] != '01':
-            data = db.reference(today[:4]+'/electricity_use').get()
-            month = today[4:6]
-            for day in range(1, int(today[6:8])):
-                # print(data[month+'%02d'%day])
-                for d in data[month+'%02d'%day]:
-                    # print(d)
-                    for i, k in enumerate(list(d.keys())):
-                        f_count[i] += d[k]
+        data = db.reference(yesterday[:4]+'/electricity_use').get()
+        month = yesterday[4:6]
+        for day in range(1, int(yesterday[6:8])+1):
+            # print(data[month+'%02d'%day])
+            for d in data[month+'%02d'%day]:
+                # print(d)
+                for i, k in enumerate(list(d.keys())):
+                    f_count[i] += d[k]
+        
 
         
         # print(f_count)
@@ -46,10 +46,10 @@ def get_predict():
             return_value += ' '.join(map(str, f_count)) + ' '
 
         # data_json = {k:v for k,v in enumerate(pred)}
-        return return_value[:], 200
+        return return_value, 200
     except Exception as e:
         print(str(e))
-        return jsonify({'message':str(e)})
+        return str(e)
 
 def update():
     while True:
@@ -81,7 +81,7 @@ def update():
             # print(data)
             x = yesterday[1:3] + yesterday[3:]
             y = []
-            for i in [[i[k] for i in data] for k in data[0].keys()]:
+            for i in [[i[k] for i in data] for k in data[0].keys()]: # 컴프리헨션 하고싶은데 리스트를 더하는 형식이라 실패... 더 생각해야함.
                 y += i
                     
             # print(x)

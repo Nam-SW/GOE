@@ -66,8 +66,11 @@ goe = GOE()
 
 
 
-
 ############################################## 여기가 꼭 실행해야하는곳 ##########################################
+yesterday = time.strftime('%Y%m%d%w', time.localtime(time.time()-86400)) # 전날 3600 * 24
+for i in range(48):
+    db.reference(yesterday[:4]+'/electricity_use/'+yesterday[4:8]).child(str(i)).set({'airconditioner':0, 'refrigerator':1})
+
 now = time.strftime('%Y%m%d%H%M', time.localtime(time.time()))
 for i in range(int(now[8:10])*2 + (int(now[10:]) // 30)+1):
     # print(i)
